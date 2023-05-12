@@ -19,10 +19,8 @@ import { CodeBlock } from './views/CodeBlock'
 
 const App: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
-  console.log(`1234:`,)
 
   useEffect(() => {
-    console.log(`123:`,)
     dispatch(loadCodeBlocks())
   }, [])
 

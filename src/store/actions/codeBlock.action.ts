@@ -8,7 +8,6 @@ export function loadCodeBlocks() {
     return async (dispatch: any) => {
         try {
             const codeBlocks = await codeBlockService.queryCodeBlocks()
-            console.log(`codeBlocks:`, codeBlocks)
             dispatch({ type: 'SET_CODE_BLOCKS', payload: codeBlocks })
         } catch (err) {
             console.log(`err:`, err)

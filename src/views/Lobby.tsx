@@ -7,8 +7,6 @@ import { CodeBlockModule } from '../interfaces/State.interface'
 
 export const Lobby: React.FC = () => {
   const { codeBlocks } = useSelector((state: CodeBlockModule) => state.codeBlockModule)
-  console.log(`codeBlocks:`, codeBlocks)
-
 
   if (!codeBlocks.length) return <div>Loading...</div>
 
