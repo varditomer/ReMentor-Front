@@ -1,5 +1,6 @@
 // Interfaces
 
+import { CodeBlock } from "../../interfaces/CodeBlock.Interface"
 import { codeBlockService } from "../../services/codeBlock.service"
 
 
@@ -9,6 +10,17 @@ export function loadCodeBlocks() {
         try {
             const codeBlocks = await codeBlockService.queryCodeBlocks()
             dispatch({ type: 'SET_CODE_BLOCKS', payload: codeBlocks })
+        } catch (err) {
+            console.log(`err:`, err)
+        }
+    }
+}
+
+export function addCodeBlock(newCodeBlock: CodeBlock) {
+    return async (dispatch: any) => {
+        try {
+            const codeBlock = await codeBlockService.add(newCodeBlock)
+            dispatch({ type: 'ADD_CODE_BLOCK', payload: codeBlock })
         } catch (err) {
             console.log(`err:`, err)
         }
@@ -26,17 +38,6 @@ export function loadCodeBlocks() {
 //     }
 // }
 
-// export function addCodeBlock(tweetToAdd: CodeBlock) {
-//     return async (dispatch: any) => {
-//         try {
-//             const tweet = await tweetService.add(tweetToAdd)
-//             dispatch({ type: 'ADD_TWEET', payload: tweet })
-//             notifySuccess('CodeBlock added')
-//         } catch (err) {
-//             notifyFail()
-//         }
-//     }
-// }
 
 // export function updateCodeBlock(tweetToUpdate: CodeBlock, tweetLastState: CodeBlock) {
 //     return async (dispatch: any) => {

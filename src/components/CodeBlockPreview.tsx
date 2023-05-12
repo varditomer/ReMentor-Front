@@ -17,6 +17,7 @@ export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate }) => 
 
     return (
         <article className="code-block-card" onClick={() => onNavigate(codeBlock._id)}>
+            <span className="remove-btn">X</span>
             <h3>{codeBlock.title}</h3>
             <pre>
                 <code>{codeBlock.code}</code>

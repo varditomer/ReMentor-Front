@@ -1,4 +1,7 @@
 import { CodeBlock } from "../interfaces/CodeBlock.Interface"
+import { httpService } from "./http.service"
+
+const STORAGE_KEY = 'codeBlock'
 
 const codeBlocks: CodeBlock[] = [
     {
@@ -49,7 +52,13 @@ function queryCodeBlocks(): CodeBlock[] {
     return codeBlocks
 }
 
+async function add(newCodeBlock: CodeBlock): Promise<CodeBlock> {
+    const addedCodeBlock = await httpService.post(`${STORAGE_KEY}`, newCodeBlock)
+    return addedCodeBlock
+}
+
 export const codeBlockService = {
     queryCodeBlocks,
+    add,
 
 }

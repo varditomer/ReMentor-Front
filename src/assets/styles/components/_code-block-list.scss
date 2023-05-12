@@ -8,9 +8,25 @@
         padding: 20px;
         background-color: white;
         cursor: pointer;
+        position: relative;
 
         &:hover {
             background-color: darken(white, 5%);
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            padding: 10px;
+
+            &:hover {
+                border-radius: 4em;
+                background-color: red;
+                color: white;
+                font-weight: 700;
+            }
         }
     }
 }

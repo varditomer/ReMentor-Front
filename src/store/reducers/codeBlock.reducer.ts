@@ -1,6 +1,6 @@
 // Interfaces
 import { CodeBlock } from "../../interfaces/CodeBlock.Interface"
-import { CodeBlockState } from "../../interfaces/state.interface"
+import { CodeBlockState } from "../../interfaces/State.interface"
 
 
 const CodeBlockState: CodeBlockState = {
