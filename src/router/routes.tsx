@@ -9,7 +9,7 @@ export const routes = [
         component: <Lobby />,
     },
     {
-        path: "/code-block",
+        path: "/:id",
         component: <CodeBlock />,
     }
     // {
