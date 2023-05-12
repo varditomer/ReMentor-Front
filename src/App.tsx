@@ -1,5 +1,6 @@
 // Settings
 import './assets/styles/main.scss'
+import "highlight.js/styles/github.css";
 import { routes } from './router/routes'
 // React / Redux
 import { useEffect } from 'react'
