@@ -1,4 +1,4 @@
-import { CodeBlock } from "../interfaces/CodeBlock.Interface"
+import { CodeBlock } from "../interfaces/CodeBlock.interface"
 import { httpService } from "./http.service"
 
 const STORAGE_KEY = 'codeBlock'
@@ -48,7 +48,9 @@ const codeBlocks: CodeBlock[] = [
     },
 ]
 
-function queryCodeBlocks(): CodeBlock[] {
+async function query(): Promise<CodeBlock[]> {
+    const codeBlocks: CodeBlock[] = await httpService.get(`${STORAGE_KEY}`)
+    console.log(`codeBlocks:`, codeBlocks)
     return codeBlocks
 }
 
@@ -57,8 +59,13 @@ async function add(newCodeBlock: CodeBlock): Promise<CodeBlock> {
     return addedCodeBlock
 }
 
+async function remove(codeBlockId: string) {
+    return await httpService.delete(`${STORAGE_KEY}/${codeBlockId}`)
+}
+
 export const codeBlockService = {
-    queryCodeBlocks,
+    query,
     add,
+    remove
 
 }

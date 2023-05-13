@@ -1,28 +1,36 @@
 import { useEffect } from "react";
-import { CodeBlock } from "../interfaces/CodeBlock.Interface"
-import hljs from "highlight.js";
+import { CodeBlock } from "../interfaces/CodeBlock.interface"
+
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+hljs.registerLanguage('javascript', javascript);
 
 type Props = {
     codeBlock: CodeBlock,
     onNavigate: Function
+    onRemoveCodeBlock: Function
 }
 
 
-export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate }) => {
+export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate, onRemoveCodeBlock }) => {
 
 
-    useEffect(() => {
-        hljs.highlightAll();
-    });
+    const highlightedCode = hljs.highlight(codeBlock.code, {language: 'javascript', ignoreIllegals: true}).value;
+
+    const RemoveCodeBlock = (ev: React.MouseEvent<HTMLDivElement>) => {
+        ev.stopPropagation() // stopping the propagation of the click event causing the click not to propagate to CB card and navigate the user to the CB page
+        onRemoveCodeBlock(codeBlock._id)
+    }
 
     return (
         <article className="code-block-card" onClick={() => onNavigate(codeBlock._id)}>
-            <span className="remove-btn">X</span>
+            <span className="remove-btn" onClick={RemoveCodeBlock}>X</span>
             <h3>{codeBlock.title}</h3>
+
             <pre>
-                <code>{codeBlock.code}</code>
+                <code className="language-javascript hljs" dangerouslySetInnerHTML={{ __html: highlightedCode }}></code>
             </pre>
-            {/* <pre></pre> */}
+
         </article>
     )
 }

@@ -1,6 +1,6 @@
 // Settings
 import './assets/styles/main.scss'
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/a11y-dark.css";
 import { routes } from './router/routes'
 // React / Redux
 import { useEffect } from 'react'

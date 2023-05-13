@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom"
-import { CodeBlock } from "../interfaces/CodeBlock.Interface"
+import { CodeBlock } from "../interfaces/CodeBlock.interface"
 import { CodeBlockPreview } from "./CodeBlockPreview"
 
 type Props = {
     codeBlocks: CodeBlock[]
+    onNavigate: Function
+    onRemoveCodeBlock: Function
 }
 
 
-export const CodeBlockList: React.FC<Props> = ({ codeBlocks }) => {
-    const navigate = useNavigate()
-    const onNavigate = (codeBlockId: string) => navigate(`/${codeBlockId}`)
+export const CodeBlockList: React.FC<Props> = ({ codeBlocks, onNavigate, onRemoveCodeBlock }) => {
+    
 
     return (
         <section className="code-block-list">
@@ -17,6 +17,7 @@ export const CodeBlockList: React.FC<Props> = ({ codeBlocks }) => {
                 key={codeBlock._id}
                 codeBlock={codeBlock}
                 onNavigate={onNavigate}
+                onRemoveCodeBlock={onRemoveCodeBlock}
             />
             )}
         </section>

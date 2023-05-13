@@ -1,6 +1,6 @@
 // Interfaces
 
-import { CodeBlock } from "../../interfaces/CodeBlock.Interface"
+import { CodeBlock } from "../../interfaces/CodeBlock.interface"
 import { codeBlockService } from "../../services/codeBlock.service"
 
 
@@ -8,7 +8,7 @@ import { codeBlockService } from "../../services/codeBlock.service"
 export function loadCodeBlocks() {
     return async (dispatch: any) => {
         try {
-            const codeBlocks = await codeBlockService.queryCodeBlocks()
+            const codeBlocks = await codeBlockService.query()
             dispatch({ type: 'SET_CODE_BLOCKS', payload: codeBlocks })
         } catch (err) {
             console.log(`err:`, err)
@@ -27,16 +27,18 @@ export function addCodeBlock(newCodeBlock: CodeBlock) {
     }
 }
 
-// export function removeCodeBlock(tweetId: string) {
-//     return async (dispatch: any) => {
-//         try {
-//             await tweetService.remove(tweetId)
-//             dispatch({ type: 'REMOVE_TWEET', payload: tweetId })
-//         } catch (err) {
-//             notifyFail()
-//         }
-//     }
-// }
+export function removeCodeBlock(codeBlockId: string) {
+    return async (dispatch: any) => {
+        try {
+            await codeBlockService.remove(codeBlockId)
+            // by 1st trying to remove CB from backend if there will be a failure the CB won't remove also from the store.
+            // it can be done also with optimistic approach by removing it 1st from the store and saving a backup in case of failure
+            dispatch({ type: 'REMOVE_CODE_BLOCK', payload: codeBlockId })
+        } catch (err) {
+            console.log(`err:`, err)
+        }
+    }
+}
 
 
 // export function updateCodeBlock(tweetToUpdate: CodeBlock, tweetLastState: CodeBlock) {

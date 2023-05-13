@@ -1,5 +1,5 @@
 // Interfaces
-import { CodeBlock } from "./CodeBlock.Interface"
+import { CodeBlock } from "./CodeBlock.interface"
 // Reducers
 
 

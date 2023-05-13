@@ -1,5 +1,5 @@
 // Interfaces
-import { CodeBlock } from "../../interfaces/CodeBlock.Interface"
+import { CodeBlock } from "../../interfaces/CodeBlock.interface"
 import { CodeBlockState } from "../../interfaces/State.interface"
 
 
@@ -27,12 +27,12 @@ export function codeBlockReducer(state = CodeBlockState, action: Action) {
         case 'REMOVE_CODE_BLOCK':
             return {
                 ...state,
-                codeBlocks: state.codeBlocks.filter((codeBlock: CodeBlock) => codeBlock._id !== action.payload)
+                codeBlocks: state.codeBlocks.filter(c => c._id !== action.payload)
             }
         case 'UPDATE_CODE_BLOCK':
             return {
                 ...state,
-                codeBlocks: state.codeBlocks.map((codeBlock: CodeBlock) => (codeBlock._id === action.payload._id) ? action.payload : codeBlock)
+                codeBlocks: state.codeBlocks.map(c => (c._id === action.payload._id) ? action.payload : c)
             }
         default:
             return state

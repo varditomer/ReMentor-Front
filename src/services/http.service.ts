@@ -1,6 +1,6 @@
 // Dependencies
 import Axios from "axios"
-import { CodeBlock } from "../interfaces/CodeBlock.Interface"
+import { CodeBlock } from "../interfaces/CodeBlock.interface"
 // Interfaces
 
 const BASE_URL: string = (process.env.NODE_ENV === 'production') ?
@@ -21,12 +21,12 @@ export const httpService = {
     put(endpoint: string, data: CodeBlock) {
         return ajax(endpoint, 'PUT', data)
     },
-    delete(endpoint: string, data: string) {
+    delete(endpoint: string, data = null) {
         return ajax(endpoint, 'DELETE', data)
     }
 }
 
-async function ajax(endpoint: string, method = 'GET', data: CodeBlock | string | null) {
+async function ajax(endpoint: string, method = 'GET', data: CodeBlock | null) {
     try {
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,
