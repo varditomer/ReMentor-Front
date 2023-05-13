@@ -1,16 +1,23 @@
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { CodeBlockModule } from "../interfaces/State.interface"
+import { CodeBlockModule, INITIAL_STATE } from "../interfaces/State.interface"
+import { AnyAction } from 'redux'
+import { useDispatch } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+
+
 
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
 
 import { useEffect, useRef, useState } from "react";
+import { updateCodeBlock } from "../store/actions/codeBlock.action"
 
 export const CodeBlock: React.FC = () => {
   const params = useParams() // Getting the right codeBlock according to params id that point on user's selected codeBlock
   const codeBlock = useSelector((state: CodeBlockModule) => state.codeBlockModule.codeBlocks.find(c => c._id === params.id))
+  const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
   const [code, setCode] = useState('')
   const [highlightedCode, setHighlightedCode] = useState('')
@@ -55,6 +62,12 @@ export const CodeBlock: React.FC = () => {
     setHighlightedCode(styledCode)
     // Resize text area to cover code element whenever it is edited
     resizeTextarea()
+
+    const codeBlockToUpdate = structuredClone(codeBlock)
+    if(codeBlockToUpdate) {
+      codeBlockToUpdate.code = editedCode
+      dispatch(updateCodeBlock(codeBlockToUpdate))
+    }
   }
 
   const resizeTextarea = () => {

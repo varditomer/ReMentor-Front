@@ -40,30 +40,13 @@ export function removeCodeBlock(codeBlockId: string) {
     }
 }
 
-
-// export function updateCodeBlock(tweetToUpdate: CodeBlock, tweetLastState: CodeBlock) {
-//     return async (dispatch: any) => {
-//         try {
-//             // Optimistic update: 1st updating store, if backend update fail - restore to tweet's last state
-//             dispatch({ type: 'UPDATE_TWEET', payload: tweetToUpdate })
-//             await tweetService.update(tweetToUpdate)
-//         } catch (err) {
-//             dispatch({ type: 'UPDATE_TWEET', payload: tweetLastState })
-//             notifyFail()
-//         }
-//     }
-// }
-
-// export function addRetweet(retweetedCodeBlockId: string) {
-//     return async (dispatch: any) => {
-//         try {
-//             const retweet = await tweetService.retweet(retweetedCodeBlockId)
-//             dispatch({ type: 'ADD_TWEET', payload: retweet })
-//             notifySuccess('CodeBlock Retweeted')
-//             return retweet._id
-//         } catch (err) {
-//             notifyFail()
-//         }
-//     }
-// }
-
+export function updateCodeBlock(codeBlockToUpdate: CodeBlock) {
+    return async (dispatch: any) => {
+        try {
+            const updatedCodeBlock = await codeBlockService.update(codeBlockToUpdate)
+            dispatch({ type: 'UPDATE_CODE_BLOCK', payload: updatedCodeBlock })
+        } catch (err) {
+            console.log(`err:`, err)
+        }
+    }
+}
