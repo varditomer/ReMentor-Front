@@ -13,6 +13,9 @@ export const CodeBlock: React.FC = () => {
   const codeBlock = useSelector((state: CodeBlockModule) => state.codeBlockModule.codeBlocks.find(c => c._id === params.id))
 
   const [code, setCode] = useState('')
+  const [highlightedCode, setHighlightedCode] = useState('')
+  const [componentRendered, setComponentRendered] = useState(false)
+
 
   const codeRef = useRef<HTMLElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -21,23 +24,35 @@ export const CodeBlock: React.FC = () => {
     // Don't enter till codeBlock is loaded from store
     if (!codeBlock) return
     setCode(codeBlock.code)
+    // Initial highlight the code and Resize text area
+    // if (!code) return
+    const styledCode = hljs.highlight(codeBlock.code, {language: 'javascript', ignoreIllegals: true}).value;
+    setHighlightedCode(styledCode)
   }, [codeBlock])
-
+  
+  
+  useEffect(() => {
+    // Skip running the effect if the component hasn't rendered yet
+    // Added componentRendered so the ref won't be null and this use effect will run only once
+    if(!componentRendered || !textAreaRef.current) return
+    resizeTextarea()
+  }, [componentRendered])
 
   useEffect(() => {
-    // Initial highlight the code and Resize text area
-    if (!codeRef.current) return
-    hljs.highlightBlock(codeRef.current)
-    resizeTextarea()
-  }, [code])
-
-
+    if (!highlightedCode) return
+    setComponentRendered(true)
+  }, [highlightedCode])
+  
+  
   const onCodeChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(`ev.target.value:`, ev.target.value)
-    setCode(ev.target.value)
+    const editedCode = ev.target.value
+
+    setCode(editedCode)
     if (!codeRef.current) return
+    
     // Re-highlight the code whenever it is edited
-    hljs.highlightBlock(codeRef.current)
+    const styledCode = hljs.highlight(editedCode, {language: 'javascript', ignoreIllegals: true}).value;
+    setHighlightedCode(styledCode)
     // Resize text area to cover code element whenever it is edited
     resizeTextarea()
   }
@@ -49,18 +64,17 @@ export const CodeBlock: React.FC = () => {
     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
   }
 
-  if (!code) return <div>Loading...</div>
+  if (!highlightedCode) return <div>Loading...</div>
 
   return (
     <section className="code-block-page">
       <h1>Code Block Page</h1>
       <pre className="highlighted-code-container">
         <code
-          className="highlighted-text-content"
-          // dangerouslySetInnerHTML={{ __html: code }}
+          className="highlighted-text-content language-javascript hljs"
+          dangerouslySetInnerHTML={{ __html: highlightedCode }}
           ref={codeRef}
         >
-          {code}
         </code>
         <textarea className="code-text-area" spellCheck={false} ref={textAreaRef} onChange={onCodeChange} value={code} rows={1} />
       </pre>

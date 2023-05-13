@@ -1,30 +1,32 @@
 .code-block-page {
     background-color: $clr1;
     
-    
     .highlighted-code-container {
         position: relative;
         margin: 0;
 
-        .code-text-area {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: transparent;
-            color: transparent;
-            border: transparent;
-            resize: none;
-            overflow: hidden;
-            caret-color: white;
-            height: auto;
-            width: 100%;
-            padding: 0;
+        .code-text-area,
+        .highlighted-text-content {
             font-size: 16px;
             letter-spacing: 0;
             font-family: monospace;
             padding: 24px !important;
             line-height: 1.2;
-            
+        }
+
+        .code-text-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent;
+            color: transparent;
+            border: transparent;
+            resize: none;
+            overflow: hidden;
+            height: auto;
+            caret-color: white;
+
             &:focus {
                 outline: none;
                 border: none;
@@ -32,12 +34,6 @@
         }
         
         .highlighted-text-content{
-            line-height: 1.2;
-            padding: 0;
-            padding: 24px !important;
-            font-size: 16px;
-            letter-spacing: 0;
-            font-family: monospace;
             span {
                 font-family: monospace;
             }
