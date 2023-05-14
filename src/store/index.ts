@@ -3,7 +3,6 @@ import { applyMiddleware, combineReducers, compose, legacy_createStore as create
 import thunk from 'redux-thunk'
 // Reducers
 import { codeBlockReducer } from './reducers/codeBlock.reducer'
-import { userReducer } from './reducers/user.reducer'
 
 
 declare global {
@@ -13,9 +12,9 @@ declare global {
 }
 
 // get several reducers and combine it to get one store with several modules
+// at the end didn't use the user module according to the assignment details but left it for future use
 const rootReducer = combineReducers({
     codeBlockModule: codeBlockReducer,
-    userModule: userReducer,
 }) 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

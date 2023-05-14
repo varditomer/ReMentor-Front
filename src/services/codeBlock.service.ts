@@ -1,4 +1,6 @@
+// Interfaces
 import { CodeBlock } from "../interfaces/CodeBlock.interface"
+// Services
 import { httpService } from "./http.service"
 
 const STORAGE_KEY = 'codeBlock'

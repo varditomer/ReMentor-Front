@@ -1,8 +1,9 @@
-// Dependencies
+// External libraries
 import Axios from "axios"
-import { CodeBlock } from "../interfaces/CodeBlock.interface"
 // Interfaces
+import { CodeBlock } from "../interfaces/CodeBlock.interface"
 
+// Conditionally choose backend server url according to process env mode - production / development
 const BASE_URL: string = (process.env.NODE_ENV === 'production') ?
     '/api/'
     : '//localhost:3030/api/'

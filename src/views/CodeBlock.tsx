@@ -1,24 +1,19 @@
+// React / Redux
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { CodeBlockModule, INITIAL_STATE } from "../interfaces/State.interface"
 import { AnyAction } from 'redux'
 import { useDispatch } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-
-
-// 1. set socketService
-// 2. register user to socket and connect
-// 3. send to the back array of connected user
-// 4. dispatch update store and emit socket event (codeUpdated)
-// 5. on the back - onCodeUpdate => broadcast socket event (codeUpdated)
-// 6. on the CodeBlockCMP - listen to socket event (codeUpdated) and dispatch updateSocket
-
+import { useEffect, useRef, useState } from "react";
+// Interfaces
+import { CodeBlockModule, INITIAL_STATE } from "../interfaces/State.interface"
+// External libraries
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
-
-import { useEffect, useRef, useState } from "react";
+// Actions
 import { updateCodeBlock } from "../store/actions/codeBlock.action"
+// Services
 import socketService from "../services/socket.service"
 
 export const CodeBlock: React.FC = () => {
@@ -31,44 +26,37 @@ export const CodeBlock: React.FC = () => {
   const [highlightedCode, setHighlightedCode] = useState('')
   const [componentRendered, setComponentRendered] = useState(false)
 
-  const myPermissionRef = useRef<null | boolean>(null); // Create a ref with the initial value of count
+  const codeRef = useRef<HTMLElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const myPermissionRef = useRef<null | boolean>(null); // ref to save users permissions to deliver by sockets to back when component unmount
+  const isAlreadySignedToRoom = useRef<boolean>(false); // ref flag to check if user already emit room enter socket event
 
   useEffect(() => {
     myPermissionRef.current = myPermission; // Update the ref whenever count changes
   }, [myPermission])
 
   useEffect(() => {
+    // socket events listeners
     socketService.init('initial-permission', (isAllowedEditing: boolean) => setMyPermission(isAllowedEditing))
-
-    socketService.init('update-permission', (isAllowedEditing: boolean) => {
-      console.log(`isAllowE:`, isAllowedEditing)
-      setMyPermission(isAllowedEditing)
-    })
+    socketService.init('update-permission', (isAllowedEditing: boolean) => setMyPermission(isAllowedEditing))
 
     if (!codeBlock || !codeBlock?._id) return
-    console.log(`1:`,)
     return () => {
+      // Emit user leave room event when cmp unmount to deliver permission to the users who stay in room
       if (codeBlock._id) socketService.emitLeaveCodeBlockRoom(codeBlock._id, myPermissionRef.current)
     }
   }, [])
-
-
-
-  const codeRef = useRef<HTMLElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const isAlreadySignedToRoom = useRef<boolean>(false);
 
   useEffect(() => {
     // Don't enter till codeBlock is loaded from store
     if (!codeBlock) return
     setCode(codeBlock.code)
+
     // Initial highlight the code and Resize text area
-    // if (!code) return
     const styledCode = hljs.highlight(codeBlock.code, { language: 'javascript', ignoreIllegals: true }).value;
     setHighlightedCode(styledCode)
 
-
-    // When the user enters a CodeBlock room
+    // run only when the user enters a CodeBlock room
     if (!isAlreadySignedToRoom.current) {
       console.log(`isAlreadySignedToRoom.current:`, isAlreadySignedToRoom.current)
       isAlreadySignedToRoom.current = true
@@ -78,50 +66,49 @@ export const CodeBlock: React.FC = () => {
   }, [codeBlock])
 
 
-
+  useEffect(() => {
+    // validate component has been render (after code gets from store and being highlighted) to resize text area only then
+    if (!highlightedCode && !componentRendered) return
+    setComponentRendered(true)
+  }, [highlightedCode])
 
   useEffect(() => {
-    // Skip running the effect if the component hasn't rendered yet
+    // Skip running the useEffect if the component hasn't rendered yet
     // Added componentRendered so the ref won't be null and this use effect will run only once
     if (!componentRendered || !textAreaRef.current) return
     resizeTextarea()
 
   }, [componentRendered])
 
-  useEffect(() => {
-    if (!highlightedCode && !componentRendered) return
-    setComponentRendered(true)
-  }, [highlightedCode])
-
-
   const onCodeChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
 
     // Check if user has permission to edit
     if (!myPermission) return;
 
-
     const editedCode = ev.target.value
-
     setCode(editedCode)
+
     if (!codeRef.current) return
 
-    // Re-highlight the code whenever it is edited
+    // Re-highlight the code whenever it's edited
     const styledCode = hljs.highlight(editedCode, { language: 'javascript', ignoreIllegals: true }).value;
     setHighlightedCode(styledCode)
     // Resize text area to cover code element whenever it is edited
     resizeTextarea()
 
-    const codeBlockToUpdate = structuredClone(codeBlock)
+    // Break codeBlock pointer to secure codeBlock won't changed
+    const codeBlockToUpdate = JSON.parse(JSON.stringify(codeBlock))
     if (codeBlockToUpdate) {
       codeBlockToUpdate.code = editedCode
       dispatch(updateCodeBlock(codeBlockToUpdate))
+      // Emit code updated socket event
       socketService.emitUpdateCode(codeBlockToUpdate)
     }
   }
 
   const resizeTextarea = () => {
     if (!textAreaRef.current) return
-    // Set the height of the textarea to auto (max parent size) first, then set it to its scrollHeight
+    // Set the height of the textarea to auto (max parent size) first, then set it to its scrollHeight to cover code area
     textAreaRef.current.style.height = 'auto';
     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
   }
@@ -137,10 +124,9 @@ export const CodeBlock: React.FC = () => {
       <pre className="highlighted-code-container">
         <code
           className="highlighted-text-content language-javascript hljs"
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
+          dangerouslySetInnerHTML={{ __html: highlightedCode }} // Handle harm code injection
           ref={codeRef}
-        >
-        </code>
+        />
         <textarea className="code-text-area" spellCheck={false} ref={textAreaRef} onChange={onCodeChange} value={code} rows={1} />
       </pre>
     </section>

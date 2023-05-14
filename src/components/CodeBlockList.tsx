@@ -1,4 +1,6 @@
+// Interfaces
 import { CodeBlock } from "../interfaces/CodeBlock.interface"
+// Components
 import { CodeBlockPreview } from "./CodeBlockPreview"
 
 type Props = {
@@ -9,8 +11,6 @@ type Props = {
 
 
 export const CodeBlockList: React.FC<Props> = ({ codeBlocks, onNavigate, onRemoveCodeBlock }) => {
-    
-
     return (
         <section className="code-block-list">
             {codeBlocks?.map(codeBlock => <CodeBlockPreview

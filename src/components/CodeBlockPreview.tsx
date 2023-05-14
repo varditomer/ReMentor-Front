@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+// Interfaces
 import { CodeBlock } from "../interfaces/CodeBlock.interface"
-
+// External libraries
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
@@ -10,7 +10,6 @@ type Props = {
     onNavigate: Function
     onRemoveCodeBlock: Function
 }
-
 
 export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate, onRemoveCodeBlock }) => {
 

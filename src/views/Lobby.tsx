@@ -17,7 +17,6 @@ export const Lobby: React.FC = () => {
   const { codeBlocks } = useSelector((state: CodeBlockModule) => state.codeBlockModule)
   const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
-
   const navigate = useNavigate()
   const onNavigate = (codeBlockId: string) => navigate(`/${codeBlockId}`)
 

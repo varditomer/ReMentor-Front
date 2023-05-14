@@ -1,7 +1,5 @@
 // Interfaces
-import { CodeBlock } from "../../interfaces/CodeBlock.interface"
 import { CodeBlockState } from "../../interfaces/State.interface"
-
 
 const CodeBlockState: CodeBlockState = {
     codeBlocks: [],

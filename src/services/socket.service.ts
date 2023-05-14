@@ -1,10 +1,11 @@
+// External libraries
 import { io, Socket } from 'socket.io-client';
+// Interfaces
 import { CodeBlock } from '../interfaces/CodeBlock.interface';
 
 
 class SocketService {
   private socket: Socket;
-
 
   baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
@@ -15,7 +16,6 @@ class SocketService {
   public init(eventName: string, cb: (args: any) => void): void {
     this.socket.on(eventName, cb)
   }
-
 
   public emitUpdateCode(codeBlock: CodeBlock): void {
     this.socket.emit('update-code', codeBlock);
