@@ -25,7 +25,7 @@ export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate, onRem
         <article className="code-block-card" onClick={() => onNavigate(codeBlock._id)}>
             <div className="code-block-card-header">
                 <h3>{codeBlock.title}</h3>
-                <img src="src\assets\svgs\x-symbol-svgrepo-com.svg" className="remove-btn" onClick={RemoveCodeBlock}></img>
+                <img src="./src/assets/svgs/x-symbol-svgrepo-com.svg" className="remove-btn" onClick={RemoveCodeBlock}></img>
             </div>
 
             <pre>

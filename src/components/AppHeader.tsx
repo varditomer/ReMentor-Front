@@ -9,7 +9,7 @@ export const AppHeader: React.FC = () => {
     return (
         <header className={`app-header ${isPageHome ? '' : 'padding-small'}`}>
             <div className="logo" title="" onClick={() => navigate('/')}>
-                <img src="src\assets\svgs\SiteLogo.svg" alt="" />
+                <img src="./src/assets/svgs/SiteLogo.svg" alt="" />
                 <span className="txt">MentorStream</span>
             </div>
         </header>

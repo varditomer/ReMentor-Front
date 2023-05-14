@@ -1,5 +1,15 @@
 .lobby {
     padding: 20px 80px;
+    position: relative;
+    .black-screen {
+        height: 100%;
+        width: 100%;
+        background-color: gray;
+        position: absolute;
+        z-index: 5;
+    }
+
+
     .lobby-header {
         display: flex;
         justify-content: space-between;

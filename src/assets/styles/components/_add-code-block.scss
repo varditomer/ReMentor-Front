@@ -1,0 +1,55 @@
+.add-code-block-modal {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    left: 50px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    z-index: 10;
+    
+
+    .add-code-block-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+        .close-btn {
+            cursor: pointer;
+            height: 14px;
+            width: 14px;
+            transition: scale .2s;
+            &:hover {
+                scale: 1.25;
+                font-weight: 700;
+            }
+        }
+    }
+
+    form {
+        display: grid;
+        row-gap: 20px;
+
+        .input {
+            border: none;
+        }
+
+        .submit {
+            border: none;
+            padding: 10px 20px;
+            background-color: lighten($clr1, 10%);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: scale 0.2s;
+            cursor: pointer;
+            &:hover {
+                scale: 1.05;
+            }
+        }
+        
+    }
+
+
+}

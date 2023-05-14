@@ -58,7 +58,6 @@ export const CodeBlock: React.FC = () => {
 
     // run only when the user enters a CodeBlock room
     if (!isAlreadySignedToRoom.current) {
-      console.log(`isAlreadySignedToRoom.current:`, isAlreadySignedToRoom.current)
       isAlreadySignedToRoom.current = true
       if (codeBlock._id) socketService.emitJoinCodeBlockRoom(codeBlock._id)
     }
