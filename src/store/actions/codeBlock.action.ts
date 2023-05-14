@@ -44,7 +44,20 @@ export function updateCodeBlock(codeBlockToUpdate: CodeBlock) {
     return async (dispatch: any) => {
         try {
             const updatedCodeBlock = await codeBlockService.update(codeBlockToUpdate)
+            console.log(`updated:`, )
             dispatch({ type: 'UPDATE_CODE_BLOCK', payload: updatedCodeBlock })
+            // emit the updated code block to the first user
+        } catch (err) {
+            console.log(`err:`, err)
+        }
+    }
+}
+
+export function updateCodeBlockInStore(codeBlockToUpdate: CodeBlock) {
+    return async (dispatch: any) => {
+        try {
+            console.log(`123:`, )
+            dispatch({ type: 'UPDATE_CODE_BLOCK', payload: codeBlockToUpdate })
         } catch (err) {
             console.log(`err:`, err)
         }

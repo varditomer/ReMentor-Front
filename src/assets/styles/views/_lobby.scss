@@ -1,4 +1,25 @@
 .lobby {
-    background-color: lightblue;
-    padding: 20px;
+    padding: 20px 80px;
+    .lobby-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-block: 20px;
+        h1 {
+            font-size: 28px;
+        }
+        .add-code-block {
+            border: none;
+            padding: 10px 20px;
+            background-color: lighten($clr1, 10%);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: scale 0.2s;
+            cursor: pointer;
+            &:hover {
+                scale: 1.1;
+            }
+        }
+    }
 }

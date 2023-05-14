@@ -8,7 +8,10 @@ import { useNavigate } from "react-router-dom"
 import { CodeBlockModule, INITIAL_STATE } from '../interfaces/State.interface'
 import { useDispatch } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { removeCodeBlock } from '../store/actions/codeBlock.action'
+import { removeCodeBlock, updateCodeBlockInStore } from '../store/actions/codeBlock.action'
+import socketService from '../services/socket.service'
+import { useEffect } from 'react'
+import { CodeBlock } from '../interfaces/CodeBlock.interface'
 
 export const Lobby: React.FC = () => {
   const { codeBlocks } = useSelector((state: CodeBlockModule) => state.codeBlockModule)
@@ -24,13 +27,20 @@ export const Lobby: React.FC = () => {
     dispatch(removeCodeBlock(codeBlockId))
   }
 
+  useEffect(() => {
+    socketService.init('codeUpdated', (codeBlock: CodeBlock) => dispatch(updateCodeBlockInStore(codeBlock)))
+  }, [])
+
+
   if (!codeBlocks.length) return <div>Loading...</div>
 
   return (
     <section className="lobby">
-      <h1>Choose code block</h1>
-      <button className="add-code-block" onClick={onAddCodeBlock}>Add Code Block +</button>
-      
+      <header className="lobby-header">
+        <h1>Select a code block</h1>
+        <button className="add-code-block" onClick={onAddCodeBlock}>Add +</button>
+      </header>
+
       <CodeBlockList
         codeBlocks={codeBlocks}
         onNavigate={onNavigate}

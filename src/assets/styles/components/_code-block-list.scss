@@ -1,31 +1,40 @@
 .code-block-list {
     display: grid;
-    row-gap: 20px;
+    row-gap: 32px;
 
     .code-block-card {
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        border-radius: 20px;
         padding: 20px;
         background-color: white;
         cursor: pointer;
-        position: relative;
 
         &:hover {
             background-color: darken(white, 5%);
         }
 
-        .remove-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            padding: 10px;
+        .code-block-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-block-end: 12px;
+            .remove-btn {
+                cursor: pointer;
+                height: 14px;
+                width: 14px;
+                transition: scale .2s;
+                &:hover {
+                    scale: 1.25;
+                    font-weight: 700;
+                }
+            }
+        }
 
-            &:hover {
-                border-radius: 4em;
-                background-color: red;
-                color: white;
-                font-weight: 700;
+        pre {
+            margin: 0;
+            code {
+                border-radius: 8px;
             }
         }
     }

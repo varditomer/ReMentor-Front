@@ -15,7 +15,7 @@ type Props = {
 export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate, onRemoveCodeBlock }) => {
 
 
-    const highlightedCode = hljs.highlight(codeBlock.code, {language: 'javascript', ignoreIllegals: true}).value;
+    const highlightedCode = hljs.highlight(codeBlock.code, { language: 'javascript', ignoreIllegals: true }).value;
 
     const RemoveCodeBlock = (ev: React.MouseEvent<HTMLDivElement>) => {
         ev.stopPropagation() // stopping the propagation of the click event causing the click not to propagate to CB card and navigate the user to the CB page
@@ -24,8 +24,10 @@ export const CodeBlockPreview: React.FC<Props> = ({ codeBlock, onNavigate, onRem
 
     return (
         <article className="code-block-card" onClick={() => onNavigate(codeBlock._id)}>
-            <span className="remove-btn" onClick={RemoveCodeBlock}>X</span>
-            <h3>{codeBlock.title}</h3>
+            <div className="code-block-card-header">
+                <h3>{codeBlock.title}</h3>
+                <img src="src\assets\svgs\x-symbol-svgrepo-com.svg" className="remove-btn" onClick={RemoveCodeBlock}></img>
+            </div>
 
             <pre>
                 <code className="language-javascript hljs" dangerouslySetInnerHTML={{ __html: highlightedCode }}></code>

@@ -1,9 +1,29 @@
 .code-block-page {
-    background-color: $clr1;
-    
+    background-color: #2b2b2b;
+    min-height: calc(100vh - 60px);
+    .code-block-page-header {
+        background-color: lighten(#2b2b2b, 5%);
+        padding: 20px;
+        color: darken(white, 15%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        border-bottom: 1px solid lightcoral;
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+        span {
+            font-weight: 300;
+            font-size: 20px;
+        }
+    }
+
     .highlighted-code-container {
-        position: relative;
         margin: 0;
+        position: relative;
 
         .code-text-area,
         .highlighted-text-content {
@@ -32,13 +52,11 @@
                 border: none;
             }
         }
-        
-        .highlighted-text-content{
+
+        .highlighted-text-content {
             span {
                 font-family: monospace;
             }
         }
     }
-
-
 }

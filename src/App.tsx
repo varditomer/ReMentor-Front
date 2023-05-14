@@ -14,6 +14,7 @@ import { INITIAL_STATE } from './interfaces/State.interface'
 import { loadCodeBlocks } from './store/actions/codeBlock.action'
 import { Lobby } from './views/Lobby'
 import { CodeBlock } from './views/CodeBlock'
+import { AppHeader } from './components/AppHeader';
 // Components
 
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
 
   return (
     <section className="main-app">
+      <AppHeader />
       <Routes>
         <Route path="/" element={<Lobby />} />
         <Route path="/:id" element={<CodeBlock />} />
