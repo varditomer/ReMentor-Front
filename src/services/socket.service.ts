@@ -13,10 +13,12 @@ class SocketService {
     this.socket = io(this.baseUrl);
   }
 
+  // Listening to generic socket events and get evName and callback for each
   public init(eventName: string, cb: (args: any) => void): void {
     this.socket.on(eventName, cb)
   }
 
+  // Socket emit events
   public emitUpdateCode(codeBlock: CodeBlock): void {
     this.socket.emit('update-code', codeBlock);
   }
